@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="64dp"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:weightSum="1"
+    tools:context="com.tbse.nes.game.ActivitySplashscreen">
+
+    <ImageView
+        android:src="@drawable/splashscreen"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight=".7"
+        android:contentDescription="Splashscreen"/>
+
+</LinearLayout>
