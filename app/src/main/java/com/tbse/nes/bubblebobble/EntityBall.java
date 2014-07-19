@@ -1,14 +1,15 @@
 package com.tbse.nes.bubblebobble;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+import com.tbse.nes.bubblebobble.Fragments.GameLevelFragment;
+
 public class EntityBall
 {
-    private ActivityMain mMain;
+    private GameLevelFragment mMain;
     private Bitmap       mImage;
 
     // replace with simple math library
@@ -17,11 +18,11 @@ public class EntityBall
     private float   mDX;
     private float   mDY;
 
-    public EntityBall(Context context)
+    public EntityBall(GameLevelFragment gameLevelFragment)
     {
-        mMain = (ActivityMain)context;
+        mMain = gameLevelFragment;
 
-        mImage = BitmapFactory.decodeResource(mMain.getResources(), R.drawable.ball);
+        mImage = BitmapFactory.decodeResource(mMain.getResources(), R.drawable.bricks);
     }
 
     public void setPosition(int x, int y)
@@ -42,7 +43,7 @@ public class EntityBall
         return new Rect((int)mX - (mImage.getWidth()>>1), (int)mY - (mImage.getWidth()>>1), (int)mX + (mImage.getWidth()>>1), (int)mY + (mImage.getHeight()>>1));
     }
 
-    public Bitmap getImage()
+    public Bitmap getBitmap()
     {
         return mImage;
     }

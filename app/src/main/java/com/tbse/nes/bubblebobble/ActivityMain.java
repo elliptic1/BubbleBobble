@@ -2,81 +2,53 @@ package com.tbse.nes.bubblebobble;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Window;
+import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
+
+import com.tbse.nes.bubblebobble.Fragments.GameLevelFragment;
+import com.tbse.nes.bubblebobble.Fragments.StartScreenFragment;
 
 import java.util.HashMap;
 
 
 public class ActivityMain extends Activity
 {
-    private GameThread  mGameThread;
-    private DrawSurface mGameScreen;
 
-    private EntityBall  mBall;
+   public static Typeface tf;
 
-    private HashMap<Integer, Fragment> fragments;
-
-
+    public static HashMap<Integer, Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
 
-        mGameScreen = (DrawSurface)findViewById(R.id.svGameScreen);
+        tf = Typeface.createFromAsset(getAssets(), "fonts/prstart.ttf");
 
-        mBall = new EntityBall(this);
-    }
+        fragments = new HashMap<Integer, Fragment>();
 
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
+        fragments.put(0, new StartScreenFragment());
+        fragments.put(1, new GameLevelFragment());
 
-        try
-        {
-            if (mGameThread != null)
-            {
-                mGameThread.setRunning(false);
-                mGameThread.join();
-            }
-        }
-        catch (Exception e) {}
-    }
+        setContentView(R.layout.blank_container);
 
-    public void initGame()
-    {
-        Rect r = getScreenDimensions();
-        getBall().setPosition(r.width()>>1, r.height()>>1);
-        getBall().setVelocity(300, 300);
-    }
+        FrameLayout screen_layout = (FrameLayout) findViewById(R.id.mainFrameLayout);
 
-    public void startGame()
-    {
-        initGame();
+        getFragmentManager().beginTransaction().add(screen_layout.getId(), fragments.get(0))
+            .commit();
 
-        mGameThread = new GameThread(this, mGameScreen);
-        mGameThread.setRunning(true);
-        mGameThread.start();
-    }
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
 
-    public void update(float dt)
-    {
-        getBall().update(dt);
-    }
+        Log.d("bb", "setting hide nav and stuff");
+        uiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        uiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        uiOptions ^= View.SYSTEM_UI_FLAG_FULLSCREEN;
 
-    // this is hacky, should be a manager of entities
-    public EntityBall getBall()
-    {
-        return mBall;
-    }
+        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
 
-    public Rect getScreenDimensions()
-    {
-        return mGameScreen.getDimensions();
-    }
+   }
+
 }

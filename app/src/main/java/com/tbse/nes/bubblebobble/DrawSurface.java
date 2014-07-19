@@ -4,19 +4,17 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Toast;
+
+import com.tbse.nes.bubblebobble.Fragments.GameLevelFragment;
 
 
-public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener
+public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback
 {
-    private ActivityMain    mMain;
+    private GameLevelFragment mMain;
     private SurfaceHolder   mHolder;
     private Rect            mDimensions;
 
@@ -42,13 +40,13 @@ public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
     private void initialize()
     {
-        mMain = (ActivityMain)getContext();
+        mMain = (GameLevelFragment) ActivityMain.fragments.get(1);
 
         getHolder().addCallback(this);
-        setOnTouchListener(this);
+//        setOnTouchListener(this);
         setWillNotDraw(false);
 
-        mBMPField = BitmapFactory.decodeResource(getResources(), R.drawable.field);
+        mBMPField = BitmapFactory.decodeResource(getResources(), R.drawable.map1);
 
         mDimensions = new Rect();
     }
@@ -86,24 +84,16 @@ public class DrawSurface extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public void onDraw(Canvas c)
     {
-        // field
+        // board
         c.drawBitmap(mBMPField, null, mDimensions, null);
 
-        // entities
-        EntityBall b = mMain.getBall();
-        c.drawBitmap(b.getImage(), null, b.getDimensions(), null);
+        // dpad
+        GameLevelFragment.dpad.draw(c);
+
+        // buttons
+        GameLevelFragment.aButton.draw(c);
+        GameLevelFragment.bButton.draw(c);
+
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent e)
-    {
-        if (e.getAction() == MotionEvent.ACTION_DOWN)
-        {
-            Point p = new Point((int)e.getX(), (int)e.getY());
-
-            Toast.makeText(this.getContext(), "do something", Toast.LENGTH_SHORT).show();
-        }
-
-        return true;
-    }
 }

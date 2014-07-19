@@ -1,20 +1,21 @@
 package com.tbse.nes.bubblebobble;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import com.tbse.nes.bubblebobble.Fragments.GameLevelFragment;
 
-class GameThread extends Thread
+
+public class GameThread extends Thread
 {
-    private ActivityMain  mMain;
+    private GameLevelFragment  mMain;
     private DrawSurface   mSurface;
     private SurfaceHolder mSurfaceHolder;
     private boolean       mRun = false;
 
-    public GameThread(Context context, DrawSurface surface)
+    public GameThread(GameLevelFragment gameLevelFragment, DrawSurface surface)
     {
-        mMain = (ActivityMain)context;
+        mMain = gameLevelFragment;
         mSurface = surface;
         mSurfaceHolder = surface.getHolder();
     }
@@ -59,6 +60,8 @@ class GameThread extends Thread
                     // draw
                     mSurface.postInvalidate();
                 }
+            } catch (IllegalStateException ise) {
+
             }
             finally
             {
