@@ -13,8 +13,8 @@ import com.tbse.nes.bubblebobble.AButton;
 import com.tbse.nes.bubblebobble.BButton;
 import com.tbse.nes.bubblebobble.Dpad;
 import com.tbse.nes.bubblebobble.DrawSurface;
-import com.tbse.nes.bubblebobble.EntityBall;
 import com.tbse.nes.bubblebobble.GameThread;
+import com.tbse.nes.bubblebobble.Player;
 import com.tbse.nes.bubblebobble.R;
 
 /**
@@ -22,10 +22,10 @@ import com.tbse.nes.bubblebobble.R;
  */
 public class GameLevelFragment extends Fragment implements View.OnTouchListener {
 
-    private EntityBall mBall;
-
     private GameThread mGameThread;
     private DrawSurface mGameScreen;
+
+    private Player player;
 
     public static AButton aButton;
     public static BButton bButton;
@@ -42,10 +42,7 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
 
         mGameScreen = (DrawSurface) levelView.findViewById(R.id.svGameScreen);
 
-        mBall = new EntityBall(this);
-
-        Log.d("bb", "width = " + container.getWidth());
-        Log.d("bb", "height = " + container.getHeight());
+        player = new Player(300, 300, getActivity().getApplicationContext());
 
         aButton = new AButton(
                 container.getWidth()-225,
@@ -95,18 +92,8 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
     }
 
 
-    public void initGame()
-    {
-        Rect r = getScreenDimensions();
-        getBall().setPosition(r.width()>>1, r.height()>>1);
-        getBall().setVelocity(300, 300);
-    }
-
-
     public void startGame()
     {
-        initGame();
-
         mGameThread = new GameThread(this, mGameScreen);
         mGameThread.setRunning(true);
         mGameThread.start();
@@ -129,20 +116,14 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
         catch (Exception e) {}
     }
 
-    public void update(float dt)
-    {
-        getBall().update(dt);
-    }
-
-    // this is hacky, should be a manager of entities
-    public EntityBall getBall()
-    {
-        return mBall;
-    }
-
     public Rect getScreenDimensions()
     {
         return mGameScreen.getDimensions();
+    }
+
+    public void update(float dt)
+    {
+        player.update(dt);
     }
 
     @Override
@@ -158,6 +139,6 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
             dpad.onTouch(event);
         }
 
-        return true;
+        return false;
     }
 }

@@ -15,6 +15,7 @@ public class BButton extends Button {
     public void onTouch(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Log.d("bb", "Shoot");
+            Player.currentPlayerState = Player.PlayerState.SHOOTING;
         }
     }
 }

@@ -15,6 +15,8 @@ public class AButton extends Button {
     public void onTouch(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Log.d("bb", "Jump");
+            Player.currentPlayerState = Player.PlayerState.JUMPING;
+            Player.isGrounded = false;
         }
     }
 }

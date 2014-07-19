@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -17,9 +16,9 @@ public class Dpad {
 
     public Rect dimensions;
 
-    public Dpad (int x, int y, int width, Context context) {
+    public Dpad(int x, int y, int width, Context context) {
         dpad = BitmapFactory.decodeResource(context.getResources(), R.drawable.dpad);
-        dimensions = new Rect(x, y, x+width, y+width);
+        dimensions = new Rect(x, y, x + width, y + width);
     }
 
     public void draw(Canvas c) {
@@ -41,22 +40,64 @@ public class Dpad {
             // ignore corners
 
             if (
-                event.getRawX() >= getDimensions().left + getDimensions().width()/3
-                    &&
-                event.getRawX() <= getDimensions().right - getDimensions().width()/3
-                    // in middle vertical third
-                ||
-                    // in middle horizontal third
-                event.getRawY() >= getDimensions().top + getDimensions().height()/3
-                    &&
-                event.getRawY() <= getDimensions().bottom - getDimensions().height()/3
+                    event.getRawX() >= getDimensions().left + getDimensions().width() / 3
+                            &&
+                            event.getRawX() <= getDimensions().right - getDimensions().width() / 3
+                    ) {
 
-                ) {
+                if (
+                        event.getRawY() <= getDimensions().top + getDimensions().height() / 3
+                        ) {
+                    handleUp();
+                } else if (
+                        event.getRawY() >= getDimensions().bottom - getDimensions().height() / 3
+                        ) {
+                    handleDown();
+                }
+            }
 
-                Log.d("bb", "touch dpad at " + event.getRawX() + ", " + event.getRawY());
+
+            if (
+                    event.getRawY() >= getDimensions().top + getDimensions().height() / 3
+                            &&
+                            event.getRawY() <= getDimensions().bottom - getDimensions().height() / 3
+
+                    ) {
+
+
+                if (event.getRawX() < getDimensions().left + getDimensions().height() / 3) {
+                    handleLeft();
+                } else if (event.getRawX() > getDimensions().right - getDimensions().height() / 3) {
+                    handleRight();
+                }
+
 
             }
 
+        }
+    }
+
+    private void handleUp() {
+        if (Player.isGrounded) {
+            Player.currentPlayerState = Player.PlayerState.STANDING;
+        }
+    }
+
+    private void handleDown() {
+        if (Player.isGrounded) {
+            Player.currentPlayerState = Player.PlayerState.STANDING;
+        }
+    }
+
+    private void handleLeft() {
+        if (Player.isGrounded) {
+            Player.currentPlayerState = Player.PlayerState.WALKING;
+        }
+    }
+
+    private void handleRight() {
+        if (Player.isGrounded) {
+            Player.currentPlayerState = Player.PlayerState.WALKING;
         }
     }
 
