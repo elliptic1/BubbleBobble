@@ -1,10 +1,14 @@
-package com.tbse.nes.bubblebobble;
+package com.tbse.nes.bubblebobble.controls;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+
+import com.tbse.nes.bubblebobble.Fragments.GameLevelFragment;
+import com.tbse.nes.bubblebobble.R;
+import com.tbse.nes.bubblebobble.characters.Player;
 
 /**
  * Created by tbsmith on 7/18/14.
@@ -32,6 +36,10 @@ public class Button {
     public Rect getDimensions() {
 
         return dimensions;
+    }
+
+    public Player getPlayer() {
+        return GameLevelFragment.player;
     }
 
 }

@@ -1,8 +1,8 @@
 package com.tbse.nes.bubblebobble.Fragments;
 
 import android.app.Fragment;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,12 +17,26 @@ import com.tbse.nes.bubblebobble.R;
  */
 public class StartScreenFragment extends Fragment {
 
+    MediaPlayer music;
+    private boolean musicIsPlaying;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View startScreenView = inflater.inflate(R.layout.start_screen_fragment, container, false);
 
+        music = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.intro);
+        music.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                music.reset();
+                music.release();
+                musicIsPlaying = false;
+            }
+        });
+        music.start();
+        musicIsPlaying = true;
 
         final TextView tv = (TextView) startScreenView.findViewById(R.id.startGameText);
         tv.setTypeface(ActivityMain.tf);
@@ -32,12 +46,14 @@ public class StartScreenFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                Log.d("bb", "ontouch");
-
+                if (musicIsPlaying) {
+                    music.stop();
+                }
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     tv.setTextColor(getResources().getColor(R.color.red));
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
+
                     tv.setTextColor(getResources().getColor(R.color.white));
                     getFragmentManager().beginTransaction().replace(
                             getId(), ActivityMain.fragments.get(1)

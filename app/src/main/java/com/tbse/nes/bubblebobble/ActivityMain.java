@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 
 import com.tbse.nes.bubblebobble.Fragments.GameLevelFragment;
 import com.tbse.nes.bubblebobble.Fragments.StartScreenFragment;
+import com.tbse.nes.bubblebobble.Levels.Level01;
 
 import java.util.HashMap;
 
@@ -32,6 +33,8 @@ public class ActivityMain extends Activity
 
         fragments.put(0, new StartScreenFragment());
         fragments.put(1, new GameLevelFragment());
+
+        Level01.init();
 
         setContentView(R.layout.blank_container);
 
