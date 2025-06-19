@@ -1,24 +1,24 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    namespace 'com.tbse.nes.bubblebobble'
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "com.tbse.nes.bubblebobble"
         minSdkVersion 19
-        targetSdkVersion 20
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
