@@ -1,6 +1,5 @@
 package com.tbse.nes.bubblebobble.Fragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -9,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.tbse.nes.bubblebobble.DrawSurface;
 import com.tbse.nes.bubblebobble.GameThread;
@@ -54,11 +55,11 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
 
         levelView.setOnTouchListener(this);
 
-        context = getActivity().getApplicationContext();
+        context = requireActivity().getApplicationContext();
 
         mGameScreen = (DrawSurface) levelView.findViewById(R.id.svGameScreen);
 
-        player = new Player(300, 300, 120, getActivity().getApplicationContext());
+        player = new Player(300, 300, 120, requireActivity().getApplicationContext());
 
         fruits = new ArrayList<Fruit>();
 
@@ -72,17 +73,17 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
                 container.getWidth()-225,
                 container.getHeight()-400,
                 200,
-                getActivity().getApplicationContext());
+                requireActivity().getApplicationContext());
         bButton = new BButton(
                 container.getWidth()-500,
                 container.getHeight()-250,
                 200,
-                getActivity().getApplicationContext());
+                requireActivity().getApplicationContext());
         dpad = new Dpad(
                 15,
                 container.getHeight()-10-300,
                 300,
-                getActivity().getApplicationContext());
+                requireActivity().getApplicationContext());
 
         bubbleShots = new ArrayList<BubbleShot>();
 
@@ -94,7 +95,7 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
     public void onResume() {
         super.onResume();
 
-        int uiOptions = getActivity().getWindow().getDecorView().getSystemUiVisibility();
+        int uiOptions = requireActivity().getWindow().getDecorView().getSystemUiVisibility();
 
         if ( ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions)) {
         } else {
@@ -112,7 +113,7 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
             uiOptions ^= View.SYSTEM_UI_FLAG_FULLSCREEN;
         }
 
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+        requireActivity().getWindow().getDecorView().setSystemUiVisibility(uiOptions);
 
     }
 
@@ -122,7 +123,7 @@ public class GameLevelFragment extends Fragment implements View.OnTouchListener 
         mGameThread.setRunning(true);
         mGameThread.start();
 
-        music = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.main);
+        music = MediaPlayer.create(requireActivity().getApplicationContext(), R.raw.main);
         music.setLooping(true);
         music.start();
     }

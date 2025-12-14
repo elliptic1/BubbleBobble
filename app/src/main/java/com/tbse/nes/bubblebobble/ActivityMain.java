@@ -1,12 +1,13 @@
 package com.tbse.nes.bubblebobble;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.tbse.nes.bubblebobble.Fragments.GameLevelFragment;
 import com.tbse.nes.bubblebobble.Fragments.StartScreenFragment;
@@ -15,7 +16,7 @@ import com.tbse.nes.bubblebobble.Levels.Level01;
 import java.util.HashMap;
 
 
-public class ActivityMain extends Activity
+public class ActivityMain extends FragmentActivity
 {
 
    public static Typeface tf;
@@ -40,7 +41,7 @@ public class ActivityMain extends Activity
 
         FrameLayout screen_layout = (FrameLayout) findViewById(R.id.mainFrameLayout);
 
-        getFragmentManager().beginTransaction().add(screen_layout.getId(), fragments.get(0))
+        getSupportFragmentManager().beginTransaction().add(screen_layout.getId(), fragments.get(0))
             .commit();
 
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
