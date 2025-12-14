@@ -130,9 +130,14 @@ class Player {
             }
         }
 
-        // Screen wrap (horizontal)
+        // Screen wrap
         if (this.x < -this.width) this.x = GAME_WIDTH;
         if (this.x > GAME_WIDTH) this.x = -this.width;
+        // Vertical wrap - fall off bottom, appear at top
+        if (this.y > GAME_HEIGHT) {
+            this.y = -this.height;
+            this.vy = 0;
+        }
 
         // Animation
         this.animTimer++;
